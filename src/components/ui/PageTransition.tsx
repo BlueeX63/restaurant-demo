@@ -41,7 +41,10 @@ export default function PageTransition() {
   };
 
   return (
-    <div className="fixed inset-0 pointer-events-none z-[100] flex">
+    <div 
+      className={`fixed inset-0 pointer-events-none z-[100] flex ${phase === "idle" ? "hidden" : ""}`}
+      style={{ display: phase === "idle" ? "none" : "flex" }}
+    >
       {[...Array(columns)].map((_, i) => (
         <motion.div
           key={i}
