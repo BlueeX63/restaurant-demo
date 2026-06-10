@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 export default function PageTransition() {
   const pathname = usePathname();
@@ -15,12 +15,18 @@ export default function PageTransition() {
     return () => window.removeEventListener("trigger-transition-in", handleIn);
   }, []);
 
+  const isFirstMount = useRef(true);
+
   // When pathname changes, play the 'out' animation to reveal the new page
   useEffect(() => {
+    if (isFirstMount.current) {
+      isFirstMount.current = false;
+      return;
+    }
+    
     if (phase === "in") {
       setPhase("out");
     } else {
-      // For initial load or back button
       setPhase("out");
     }
   }, [pathname]);
